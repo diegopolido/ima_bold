@@ -4,7 +4,19 @@
   <title>ImaBold</title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "jquery.mask"%>
+  <script>
+    $(document).ready(function(){
+      $('.money').mask('000.00', {reverse: true});
+    });
+  </script>
   <%= csrf_meta_tags %>
+  <style>
+    .active {
+      background-color: greenyellow !important;
+    }
+
+  </style>
 </head>
 <body>
 

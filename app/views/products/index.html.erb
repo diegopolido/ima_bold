@@ -1,0 +1,44 @@
+<h1>Listing products</h1>
+
+<table>
+  <form action="/products">
+  Filter by Category: <%= select_tag "category_id", options_for_select(@categories.collect{|c| [c.name, c.id]}, @category_id) %>
+  <input type="submit" value="Filter" />
+  </form>
+  <thead>
+    <tr>
+      <th><input type="checkbox" id="all-products" />Remove all</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Active</th>
+      <th>Category</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @products.each do |product| %>
+      <tr id="tr-<%= product.id %>" class="<%= "active" if product.active %>" style="background-color: red;">
+        <td><input type="checkbox" id="<%= product.id %>" class="product-checkbox" /></td>
+        <td><%= product.name %></td>
+        <td><%= product.price %></td>
+        <td><%= product.active %></td>
+        <td><%= product.category.name %></td>
+        <td><%= link_to 'Show', product %></td>
+        <td><%= link_to 'Edit', edit_product_path(product) %></td>
+        <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td class="activate-link" <%= "style=display:none" if product.active %>><%= link_to 'Activate', "javascript:activateSelected([#{product.id}])" %></td>
+        <td class="deactivate-link" <%= "style=display:none" if not product.active %>><%= link_to 'Deactivate', "javascript:deactivateSelected([#{product.id}])" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Product', new_product_path %>
+<%= link_to 'Remove Selected', "javascript:removeSelected()" %>
+<%= link_to 'Active Selected', "javascript:multipleActivateSelected()" %>
+<%= link_to 'Deactive Selected', "javascript:multipleDeactivateSelected()" %>

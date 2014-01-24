@@ -1,0 +1,42 @@
+<%= form_for(@product) do |f| %>
+  <% if @product.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@product.errors.count, "error") %> prohibited this product from being saved:</h2>
+
+      <ul>
+      <% @product.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :price %><br>
+    <%= f.text_field :price, class: "money" %>
+  </div>
+  <div class="field">
+    <%= f.label :active %><br>
+    <%= f.check_box :active %>
+  </div>
+  <div id="category-combo-div" class="field">
+    <%= f.label :category_id %><br>
+
+    <%= select_tag "product[category_id]", options_for_select(@categories.collect{|c| [c.name, c.id]}, @product.category_id) %>
+  </div>
+  <div id="new-category-div" class="field" style="display: none;">
+    New Category Name: <input type="text" id="category-name" />
+    <input type="button" id="save-new-category" value="Save"/>
+    <input type="button" id="cancel-new-category" value="Cancel"/>
+
+  </div>
+
+  <%= link_to "Add Category", "javascript:showNewCategoryInput()" %>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
