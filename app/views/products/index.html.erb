@@ -7,7 +7,7 @@
   </form>
   <thead>
     <tr>
-      <th><input type="checkbox" id="all-products" />Remove all</th>
+      <th><input type="checkbox" id="all-products" />All</th>
       <th>Name</th>
       <th>Price</th>
       <th>Active</th>
@@ -28,7 +28,7 @@
         <td><%= product.category.name %></td>
         <td><%= link_to 'Show', product %></td>
         <td><%= link_to 'Edit', edit_product_path(product) %></td>
-        <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Remove', "javascript:removeSelected([#{product.id}])" %></td>
         <td class="activate-link" <%= "style=display:none" if product.active %>><%= link_to 'Activate', "javascript:activateSelected([#{product.id}])" %></td>
         <td class="deactivate-link" <%= "style=display:none" if not product.active %>><%= link_to 'Deactivate', "javascript:deactivateSelected([#{product.id}])" %></td>
       </tr>
@@ -39,6 +39,6 @@
 <br>
 
 <%= link_to 'New Product', new_product_path %>
-<%= link_to 'Remove Selected', "javascript:removeSelected()" %>
+<%= link_to 'Remove Selected', "javascript:multipleRemoveSelected()" %>
 <%= link_to 'Active Selected', "javascript:multipleActivateSelected()" %>
 <%= link_to 'Deactive Selected', "javascript:multipleDeactivateSelected()" %>

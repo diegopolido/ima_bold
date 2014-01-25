@@ -12,8 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.mask
 //= require turbolinks
+
 $(document).ready(function(){
+   $('.money').mask('000.00', {reverse: true});
+
    $("#all-products").click(function() {
        var checkStatus = $("#all-products").is(':checked');
        $(".product-checkbox").attr("checked", false);
@@ -22,23 +26,30 @@ $(document).ready(function(){
        }
    });
    
-   removeSelected = function() {
-       var selected = [];
+   multipleRemoveSelected = function() {
+      var selected = [];
        $(".product-checkbox:checked").each(function(){
            selected.push($(this).attr("id"));
        });
        if(selected.length == 0) {
            alert("Select one or more products");
            return;
-       }
+       } 
+       removeSelected(selected);
+   };
+
+   removeSelected = function(selected) {
        if(confirm("Are you sure?")) {
            $.ajax({
                type:"POST",
                url: "/products/destroy_selected",
                data: {"selected" : selected},
                success: function(response) {
-                   $(".product-checkbox:checked").parent().parent().remove();
-                   alert(response);
+                   for(var i = 0; i < selected.length; i++) {
+                       $("#" + selected[i]).parent().parent().remove();
+                   }
+                   var letter = selected.length == 1 ? "Product" : "Products";
+                   alert(letter + " was successfully removed.");
                }
            });
        }
@@ -66,7 +77,6 @@ $(document).ready(function(){
                        $("#" + selected[i]).parent().parent().find(".activate-link").hide();
                        $("#" + selected[i]).parent().parent().find(".deactivate-link").show();
                    }
-                   alert("Product was successfully activated.");
                }
            });
        }
@@ -94,9 +104,7 @@ $(document).ready(function(){
                        $("#" + selected[i]).parent().parent().removeClass("active");
                        $("#" + selected[i]).parent().parent().find(".activate-link").show();
                        $("#" + selected[i]).parent().parent().find(".deactivate-link").hide();
-
                    }
-                   alert("Product was successfully deactivated.");
                }
            });
        }
