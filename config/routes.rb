@@ -7,6 +7,7 @@ ImaBold::Application.routes.draw do
   post "/products/activate_selected"
   post "/products/deactivate_selected"
   post "/categories/new_category_ajax"
+  root to: "products#index"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
